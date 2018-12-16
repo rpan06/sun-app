@@ -11,6 +11,11 @@ export default class landingPage extends React.Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
+        const {zipcode} = this.state;
+        //doublecheck that zipcode is okay
+        //5 numbers  /d{5}
+        //check in list of JS
+        //or else ERROR
         this.props.history.push(`/${this.state.zipcode}`)
     }
     render() {
