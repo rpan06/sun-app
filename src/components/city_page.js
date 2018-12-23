@@ -19,8 +19,6 @@ export default class cityPage extends React.Component {
     }
     async getUVData(lat, lon) {
         const appid = apiKeys.openWeather;
-        // const lat = 33.6846;
-        // const lon = 117.8265;
         const URL = `http://api.openweathermap.org/data/2.5/uvi?appid=${appid}&lat=${lat}&lon=${lon}`;
         const resp = await axios.get(URL);
         console.log('UV Resp', resp)
