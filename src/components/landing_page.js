@@ -3,32 +3,33 @@ import zipcodeConversions from './zipcodeConversions';
 export default class landingPage extends React.Component {
     state = {
         zipcode: '',
+        error: '',
     }
     handleChange = (event) => {
         this.setState({
             zipcode: event.target.value,
+            error: '',
         })
     }
     handleSubmit = (event) => {
         event.preventDefault();
-
         const { zipcode } = this.state;
-        if (!/^(\d{5})$/.test(zipcode) && this.checkSubmit()) {
-            console.log('FAILS CHECK')
-            return;
+
+        //pass 2 checks to continue, else zipcode error
+        if (/^(\d{5})$/.test(zipcode)) {
+            if (this.checkSubmit(zipcode)) {
+                this.props.history.push(`/${this.state.zipcode}`)
+            }
         }
 
-        //doublecheck that zipcode is okay
-        //5 numbers  /d{5}
-        //check in list of JS
-        //or else ERROR
-        this.props.history.push(`/${this.state.zipcode}`)
+        this.setState({
+            error: 'Please enter a valid zipcode u dumbass.'
+        })
+        document.getElementById("zipcode").focus();
     }
-    checkSubmit() {
-        const { zipcode } = this.state;
-        //check that zipcode is in system;
+    checkSubmit(zipcode) {
+        //check that zipcode is in zipcodeConversions file;
         for (let key in zipcodeConversions) {
-            // console.log(zipcode, key)
             if (zipcode === key) {
                 return true;
             }
@@ -36,6 +37,7 @@ export default class landingPage extends React.Component {
         return false;
     }
     render() {
+        const { error } = this.state;
         // console.log('Landing Page Props', this.props)
         return (
             <div className="center container">
@@ -57,7 +59,8 @@ export default class landingPage extends React.Component {
                                 />
                             </div>
                         </div>
-                        <button className="btn waves-effect waves-light">KILL ME</button>
+                        <p className="red-text text-accent-4">{error}</p>
+                        <button className="btn waves-effect waves-light">Search</button>
                     </form>
                 </div>
             </div>
